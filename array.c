@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "array.h"
 
 
@@ -40,9 +41,7 @@ void array_insert(Array *arr, Point p) {
         Point* new_container = malloc(sizeof(Point) * new_capacity);
 
         // Copy over existing array elements
-        for (int i = 0; i < arr->size; i++) {
-            new_container[i] = old_container[i];
-        }
+        memcpy(new_container, old_container, arr->size * sizeof(Point));
 
         // Deallocate the old container
         free(old_container);
