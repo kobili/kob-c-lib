@@ -67,10 +67,8 @@ void array_remove(Array *arr, int index) {
     }
 
     // Shift elements one place to the left
-    // This'll end up overwriting the element at index
-    for (int i = index; i < arr->size; i++) {
-        arr->container[i] = arr->container[i+1];
-    }
+    
+    memmove(&arr->container[index], &arr->container[index+1], (arr->size - index - 1) * sizeof(Point));
 
     arr->size = arr->size - 1;
 }
