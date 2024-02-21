@@ -18,14 +18,20 @@ int test_sequential(Array *arr) {
 int main() {
     Array* arr = init_array();
 
+    printf("TEST INSERT\n");
     for (int i = 0; i < 100; i++) {
         Point p = { .x = i, .y = i };
         array_insert(arr, p);
         printf("Point(%d, %d)\n", p.x, p.y);
     }
 
+    printf("TEST SEQUENTIAL\n");
     int result = 0;
     result = test_sequential(arr);
+
+    printf("TEST REMOVE\n");
+    array_remove(arr, 25);
+    array_print(arr);
 
     free_array(arr);
     
