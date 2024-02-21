@@ -4,23 +4,18 @@
 #include "array.h"
 
 
-/*
-    Initialize an array with an initial capacity of 5;
-*/
-Array* init_array() {
+Array* init_array(int element_size) {
     Array* arr = malloc(sizeof(Array));
     arr-> capacity = 5;
-    arr->container = malloc(sizeof(Point) * arr->capacity);
+    arr->container = malloc(element_size * arr->capacity);
     arr->size = 0;
+    arr->element_size = element_size;
 
     printf("init_array: Allocated array with capacity = %d and initial size = %d\n", arr->capacity, arr->size);
 
     return arr;
 }
 
-/*
-    Free array resources
-*/
 void free_array(Array* arr) {
     free(arr->container);
     free(arr);
@@ -28,20 +23,17 @@ void free_array(Array* arr) {
     printf("free_array: Freed array\n");
 }
 
-/*
-    Insert the element into the array
-*/
-void array_insert(Array *arr, Point p) {
+void array_insert(Array *arr, void *p) {
     if ((double)arr->size / (double)arr->capacity > 0.75) {
         int prev_capacity = arr->capacity;
-        Point* old_container = arr->container;
+        void* old_container = arr->container;
 
         // Initialize new container
         int new_capacity = arr->capacity * 1.5;
-        Point* new_container = malloc(sizeof(Point) * new_capacity);
+        void* new_container = malloc(arr->element_size * new_capacity);
 
         // Copy over existing array elements
-        memcpy(new_container, old_container, arr->size * sizeof(Point));
+        memcpy(new_container, old_container, arr->size * arr->element_size);
 
         // Deallocate the old container
         free(old_container);
@@ -53,13 +45,11 @@ void array_insert(Array *arr, Point p) {
         printf("array_insert - Resized array capacity from %d to %d\n", prev_capacity, arr->capacity);
     }
 
-    arr->container[arr->size] = p;
+    // insert new element by copying it from memory
+    memcpy(arr->container + arr->size * arr->element_size, p, arr->element_size);
     arr->size = arr->size + 1;
 }
 
-/*
-    Remove the element at the given index.
-*/
 void array_remove(Array *arr, int index) {
     if (index >= arr->size) {
         printf("IndexOutOfBounds - index: %d; range: [0, %d]\n", index, arr->size-1);
@@ -67,28 +57,19 @@ void array_remove(Array *arr, int index) {
     }
 
     // Shift elements one place to the left
-    
-    memmove(&arr->container[index], &arr->container[index+1], (arr->size - index - 1) * sizeof(Point));
+    void* dest_address = arr->container + index * arr->element_size;
+    void* src_address = arr->container + (index+1) * arr->element_size;
+    int bytes_to_copy = (arr->size - index - 1) * arr->element_size;
+    memmove(dest_address, src_address, bytes_to_copy);
 
     arr->size = arr->size - 1;
 }
 
-/*
-    Retrieve an element from the array at the given index.
-
-    If the index lies outside of the array, returns `NULL`.
-    Otherwise returns a pointer to the element at the index.
-*/
-Point array_retrieve(Array *arr, int index) {
+void* array_retrieve(Array *arr, int index) {
     if (index >= arr->size) {
         printf("IndexOutOfBounds - index: %d; range: [0, %d]\n", index, arr->size-1);
     }
-    return arr->container[index];
-}
 
-void array_print(Array *arr) {
-    for (int i = 0; i < arr->size; i++) {
-        Point p = array_retrieve(arr, i);
-        printf("Point(%d, %d)\n", p.x, p.y);
-    }
+    // return the address of the element
+    return arr->container + index * arr->element_size;
 }
