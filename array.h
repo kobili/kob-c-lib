@@ -38,7 +38,7 @@ void array_remove(Array *arr, int index);
     If the index lies outside of the array, returns `NULL`.
     Otherwise returns a pointer to the element at the index.
 */
-Point* array_retrieve(Array *arr, int index);
+Point array_retrieve(Array *arr, int index);
 
 void array_print(Array *arr);
 

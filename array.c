@@ -32,12 +32,12 @@ void free_array(Array* arr) {
     Insert the element into the array
 */
 void array_insert(Array *arr, Point p) {
-    if ((double)arr->size / (double)arr->capacity > 0.5) {
+    if ((double)arr->size / (double)arr->capacity > 0.75) {
         int prev_capacity = arr->capacity;
         Point* old_container = arr->container;
 
         // Initialize new container
-        int new_capacity = arr->capacity * 2;
+        int new_capacity = arr->capacity * 1.5;
         Point* new_container = malloc(sizeof(Point) * new_capacity);
 
         // Copy over existing array elements
@@ -81,19 +81,16 @@ void array_remove(Array *arr, int index) {
     If the index lies outside of the array, returns `NULL`.
     Otherwise returns a pointer to the element at the index.
 */
-Point* array_retrieve(Array *arr, int index) {
+Point array_retrieve(Array *arr, int index) {
     if (index >= arr->size) {
         printf("IndexOutOfBounds - index: %d; range: [0, %d]\n", index, arr->size-1);
-        return NULL;
     }
-    return &arr->container[index];
+    return arr->container[index];
 }
 
 void array_print(Array *arr) {
     for (int i = 0; i < arr->size; i++) {
-        Point *p = array_retrieve(arr, i);
-        if (p != NULL) {
-            printf("Point(%d, %d)\n", p->x, p->y);
-        }
+        Point p = array_retrieve(arr, i);
+        printf("Point(%d, %d)\n", p.x, p.y);
     }
 }
