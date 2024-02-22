@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "array.h"
+#include "../array.h"
 
 void array_print(Array *arr) {
     for (int i = 0; i < arr->size; i++) {
