@@ -1,3 +1,4 @@
 main
 a.out
 tests/**/*.h
+tests/bin/

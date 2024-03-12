@@ -1,23 +1,13 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "array.h"
-#include "hashing.h"
 
-typedef struct {
-    char* key;
-    char* value;
-} map_entry;
+#include "string.h"
 
 int main() {
-    char* s = "abc";
+    String* str = new_string("Hello world");
 
-    for (int i = 0; i < 4; i++) {
-        printf("%d\n", s[i] == '\0');
-        printf("%c\n", s[i]);
-    }
+    printf("%s\n", str->value);
 
-    // printf("%d\n", sizeof(*s));
+    free_string(str);
 
     return 0;
 }
