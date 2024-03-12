@@ -12,8 +12,12 @@ typedef struct {
 int main() {
     char* s = "abc";
 
-    uint32_t hash = fnv_hash_32(s, strlen(s));
-    printf("%u\n", hash);
+    for (int i = 0; i < 4; i++) {
+        printf("%d\n", s[i] == '\0');
+        printf("%c\n", s[i]);
+    }
+
+    // printf("%d\n", sizeof(*s));
 
     return 0;
 }
