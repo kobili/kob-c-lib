@@ -13,11 +13,9 @@ int test_string_assignment() {
         return -1;
     }
 
-    for (int i = 0; i < str->length; i++) {
-        if (char_at(str, i) != s[i]) {
-            printf("Wrong character at index %d: Expected %c, got %c", i, s[i], char_at(str, i));
-            return -1;
-        }
+    if (strcmp(s, str->value) != 0) {
+        printf("Strings are not equal: Expected %s, got %s\n", s, str->value);
+        return -1;
     }
 
     free_string(str);
