@@ -34,3 +34,18 @@ char char_at(String* s, int index) {
     }
     return s->value[index];
 }
+
+void write_string_to_file(String* input, FILE** fptr) {
+    size_t input_length = input->length;
+    fwrite(&input_length, sizeof(size_t), 1, *fptr);
+    fwrite(input->value, sizeof(char), input_length, *fptr);
+}
+
+String* read_string_from_file(FILE** fptr) {
+    size_t length;
+    fread(&length, sizeof(size_t), 1, *fptr);
+    char output[length];
+    fread(output, sizeof(char), length, *fptr);
+
+    return new_string(output);
+}
