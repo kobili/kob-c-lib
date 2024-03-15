@@ -24,13 +24,15 @@ int test_string_assignment() {
 }
 
 int test_string_file_io() {
+    char* test_file = "tests/bin/test_string_file";
+
     String* expected_value = new_string("Hello, Deep!");
 
-    FILE* fptr = fopen("test_strings", "wb");
+    FILE* fptr = fopen(test_file, "wb");
     write_string_to_file(expected_value, &fptr);
     fclose(fptr);
 
-    fptr = fopen("test_strings", "rb");
+    fptr = fopen(test_file, "rb");
     String* read_value = read_string_from_file(&fptr);
     fclose(fptr);
 
@@ -61,5 +63,12 @@ int main() {
     int test_result = 0;
     test_result = test_string_assignment();
     test_result = test_string_file_io();
+
+    if (test_result == 0) {
+        printf("test_string: All tests passed\n");
+    } else {
+        printf("test_string: Tests failed\n");
+    }
+
     return test_result;
 }

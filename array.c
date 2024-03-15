@@ -11,16 +11,12 @@ Array* init_array(int element_size) {
     arr->size = 0;
     arr->element_size = element_size;
 
-    printf("init_array: Allocated array with capacity = %d and initial size = %d\n", arr->capacity, arr->size);
-
     return arr;
 }
 
 void free_array(Array* arr) {
     free(arr->container);
     free(arr);
-
-    printf("free_array: Freed array\n");
 }
 
 void array_insert(Array *arr, void *p) {
@@ -41,8 +37,6 @@ void array_insert(Array *arr, void *p) {
         // Update the array
         arr->capacity = new_capacity;
         arr->container = new_container;
-
-        printf("array_insert - Resized array capacity from %d to %d\n", prev_capacity, arr->capacity);
     }
 
     // insert new element by copying it from memory
