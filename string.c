@@ -4,6 +4,10 @@
 
 String* new_string(char s[]) {
     String* str = malloc(sizeof(String));
+    if (str == NULL) {
+        printf("new_string: Failed to allocate memory for struct\n");
+        return NULL;
+    }
 
     int i = 0;
     while (1) {
@@ -16,6 +20,10 @@ String* new_string(char s[]) {
 
     str->length = i - 1;
     str->value = malloc(sizeof(char) * i);
+    if (str->value == NULL) {
+        printf("new_string: Failed to allocate memory for string\n");
+        return NULL;
+    }
 
     strcpy(str->value, s);
 

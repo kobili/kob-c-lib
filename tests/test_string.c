@@ -44,6 +44,16 @@ int test_string_file_io() {
         return -1;
     }
 
+    int i = 0;
+    while (read_value->value[i] != '\0' && i <= strlen(read_value->value) + 2) {
+        i++;
+    }
+
+    if (i != read_value->length) {
+        printf("No null terminator in copied string\n");
+        return -1;
+    }
+
     return 0;
 }
 
